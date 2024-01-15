@@ -22,7 +22,7 @@ services:
       - ./nginx/frontend/site1:/var/www/site1
     restart: unless-stopped
   nodejs-app1:
-    build: /home/user1/site1
+    build: /home/user1/site1:/usr/src/app
     env_file: 
       - /home/user1/site1/.env
     depends_on:
@@ -47,9 +47,12 @@ sudo mkdir -p /home/${USERNAME}/nginx/frontend/site1
 sudo mkdir -p /home/${USERNAME}/nginx/frontend/site2
 sudo mkdir -p /home/${USERNAME}/nginx/frontend/site3
 
-# Move addSite.sh to the home directory assuming this repo was downloaded to the home directory
+# Move addSite.sh and nodeJS.sh to the home directory assuming this repo was downloaded to the home directory
 sudo chmod +x addSite.sh
 mv addSite.sh ../addSite.sh
+
+sudo chmod +x addNodejs.sh
+mv addSite.sh ../addNodejs.sh
 
 # Add the frontend script to replace git repos with their files
 sudo mv frontend.sh /home/${USERNAME}/nginx/frontend/
@@ -66,4 +69,5 @@ echo "$DOCKER_COMPOSE_CONTENT" > "/home/${USERNAME}/docker-compose.yml"
 sudo chown ${USERNAME}: "/home/${USERNAME}/docker-compose.yml"
 
 echo "Docker configuration setup complete."
-echo "You can git clone repos to frontend/site1 and then run frontend.sh in the frontend folder to put the code in the correct directory"
+echo "You can run addSite.sh in the home directory to add or update sites"
+echo "You can run addNodejs.sh in the home directory to add or update the nodejs code"

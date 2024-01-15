@@ -1,50 +1,60 @@
 #!/bin/bash
 
+# Base directory is the current directory
+BASE_DIR="./nginx/frontend"
+
 # Navigate to the frontend directory
-cd ./nginx/frontend
+cd "${BASE_DIR}"
 
 # Function to clone and set up a site
 setup_site() {
     local site=$1
-    echo "Please enter the Git repository URL for $site:"
+    echo "Please enter the frontend code Git repository URL for $site:"
     read repo_url
 
     # Clone the repository into the appropriate folder
     sudo git clone "$repo_url" "$site"
 
-    # Set the necessary permissions and ownership
-    # Add other setup steps here if needed
+    # Process the cloned directory
+    process_site_dir "$site"
 }
 
-# Prompt for updating site1
-echo "Do you want to update site1? (yes/no)"
-read update_site1
-if [ "$update_site1" = "yes" ]; then
-    setup_site "site1"
-fi
+# Function to process a site directory
+process_site_dir() {
+    local site_dir=$1
+    echo "Processing ${site_dir}..."
 
-# Prompt for updating site2
-echo "Do you want to update site2? (yes/no)"
-read update_site2
-if [ "$update_site2" = "yes" ]; then
-    setup_site "site2"
-fi
+    # Navigate to the site directory
+    cd "${site_dir}"
 
-# Prompt for updating site3
-echo "Do you want to update site3? (yes/no)"
-read update_site3
-if [ "$update_site3" = "yes" ]; then
-    setup_site "site3"
-fi
+    # Find the first directory (assuming it's the cloned Git repo)
+    local repo_dir=$(find . -maxdepth 1 -type d | sed '1!d' | sed 's|./||')
 
-# Check if frontend.sh exists
-if [ -f "./frontend.sh" ]; then
-    echo "Setting frontend.sh as executable and running it..."
+    if [ -n "$repo_dir" ]; then
+        echo "Found repo directory: $repo_dir"
 
-    # Make frontend.sh executable
-    sudo chmod +x ./frontend.sh
+        # Move all files and directories from the repo directory to the site directory
+        mv "${repo_dir}"/* .
 
-    # Run frontend.sh
-    ./
+        # Remove the now-empty repo directory
+        rm -rf "${repo_dir}"
+        echo "Moved files and deleted ${repo_dir}."
+    else
+        echo "No repo directory found in ${site_dir}"
+    fi
+
+    # Navigate back to the base directory
+    cd "${BASE_DIR}"
+}
+
+# Update process for each site
+for site in "site1" "site2" "site3"; do
+    echo "Do you want to update $site? (yes/no)"
+    read update_site
+    if [ "$update_site" = "yes" ]; then
+        # Run setup for the chosen site
+        setup_site "$site"
+    fi
+done
 
 echo "Site update process complete."
