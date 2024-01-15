@@ -35,6 +35,11 @@ sudo chown user1:user1 "/home/user1/site1/.env"
 sudo chown user2:user2 "/home/user2/site2/.env"
 sudo chown user3:user3 "/home/user3/site3/.env"
 
+# Set ACL permissions for the .env files to allow 'oem' read and write access
+sudo setfacl -m u:oem:rw /home/user1/site1/.env
+sudo setfacl -m u:oem:rw /home/user2/site2/.env
+sudo setfacl -m u:oem:rw /home/user3/site3/.env
+
 # Set permissions for .env files to be read and write by the owner only
 sudo chmod 600 "/home/user1/site1/.env"
 sudo chmod 600 "/home/user2/site2/.env"
