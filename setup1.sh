@@ -13,9 +13,9 @@ sudo apt-get install -y acl
 
 # Creating user accounts for three different users
 # These users will have directories for their sites
-sudo adduser --disabled-login --no-create-home user1
-sudo adduser --disabled-login --no-create-home user2
-sudo adduser --disabled-login --no-create-home user3
+sudo adduser --disabled-login --no-create-home --gecos "" user1
+sudo adduser --disabled-login --no-create-home --gecos "" user2
+sudo adduser --disabled-login --no-create-home --gecos "" user3
 
 # Creating directories for each user to host their site
 # These directories are located in the user's home directory
@@ -35,15 +35,15 @@ sudo chown user1:user1 "/home/user1/site1/.env"
 sudo chown user2:user2 "/home/user2/site2/.env"
 sudo chown user3:user3 "/home/user3/site3/.env"
 
-# Set ACL permissions for the .env files to allow 'oem' read and write access
-sudo setfacl -m u:oem:rw /home/user1/site1/.env
-sudo setfacl -m u:oem:rw /home/user2/site2/.env
-sudo setfacl -m u:oem:rw /home/user3/site3/.env
-
 # Set permissions for .env files to be read and write by the owner only
 sudo chmod 600 "/home/user1/site1/.env"
 sudo chmod 600 "/home/user2/site2/.env"
 sudo chmod 600 "/home/user3/site3/.env"
+
+# Set ACL permissions for the .env files to allow 'oem' read and write access
+sudo setfacl -m u:oem:rw /home/user1/site1/.env
+sudo setfacl -m u:oem:rw /home/user2/site2/.env
+sudo setfacl -m u:oem:rw /home/user3/site3/.env
 
 # Set ownership of the site directories to the respective users
 # This makes each user the owner of their site directory
