@@ -54,9 +54,6 @@ sudo mv addSite.sh /home/${USERNAME}/addSite.sh
 sudo chmod +x addNodejs.sh
 sudo mv addNodejs.sh /home/${USERNAME}/addNodejs.sh
 
-# Add the frontend script to replace git repos with their files
-sudo mv frontend.sh /home/${USERNAME}/nginx/frontend/
-
 # Create the database directory if it doesn't exist
 sudo mkdir -p /home/user1/site1/mysql-data
 sudo mkdir -p /home/user2/site2/mysql-data

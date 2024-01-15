@@ -28,12 +28,15 @@ setup_site() {
 }
 
 # Update process for each user's site
-for user in "user1" "user2" "user3"; do
-    echo "Do you want to update ${user}'s site? (yes/no)"
+for user_num in 1 2 3; do
+    local user="user$user_num"
+    local site_dir="/home/$user/site$user_num"
+
+    echo "Do you want to update $site_dir? (yes/no)"
     read update_site
     if [ "$update_site" = "yes" ]; then
         # Run setup for the chosen site
-        setup_site "/home/$user/${user}site"
+        setup_site "$site_dir"
     fi
 done
 
