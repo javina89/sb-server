@@ -17,6 +17,9 @@ setup_site() {
 
     # Process the cloned directory
     process_site_dir "$site"
+
+    # Navigate back to the base directory
+    cd "${BASE_DIR}"
 }
 
 # Function to process a site directory
@@ -43,7 +46,7 @@ process_site_dir() {
         echo "No repo directory found in ${site_dir}"
     fi
 
-    # Navigate back to the base directory
+    # Navigate back to the site directory
     cd "${BASE_DIR}"
 }
 
