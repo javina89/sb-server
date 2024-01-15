@@ -22,9 +22,11 @@ services:
       - ./nginx/frontend/site1:/var/www/site1
     restart: unless-stopped
   nodejs-app1:
-    build: /home/user1/site1:/usr/src/app
+    build: /home/user1/site1
     env_file: 
       - /home/user1/site1/.env
+    volumes:
+      - /home/user1/site1:/usr/src/app
     depends_on:
       - mysql-db1
   mysql-db1:
@@ -40,12 +42,22 @@ EOF
 sudo mkdir -p /home/${USERNAME}/nginx/
 sudo mv nginx.conf /home/${USERNAME}/nginx/
 
+# Set ACL permissions to allow the admin user 'oem' read, write, and execute access to each
+# user's site directory. This is necessary for administrative tasks.
+sudo setfacl -m u:oem:rwx /home/${USERNAME}/nginx/
+
 # Create the front end sites directory if it doesn't exist
 # You can git clone into the front end folder to create new projects
 # frontend/app1 frontend/app2 etc 
 sudo mkdir -p /home/${USERNAME}/nginx/frontend/site1
 sudo mkdir -p /home/${USERNAME}/nginx/frontend/site2
 sudo mkdir -p /home/${USERNAME}/nginx/frontend/site3
+
+# Set ACL permissions to allow the admin user 'oem' read, write, and execute access to each
+# user's site directory. This is necessary for administrative tasks.
+sudo setfacl -m u:oem:rwx /home/${USERNAME}/nginx/frontend/site1
+sudo setfacl -m u:oem:rwx /home/${USERNAME}/nginx/frontend/site2
+sudo setfacl -m u:oem:rwx /home/${USERNAME}/nginx/frontend/site3
 
 # Move addSite.sh and nodeJS.sh to the home directory assuming this repo was downloaded to the home directory
 sudo chmod +x addSite.sh

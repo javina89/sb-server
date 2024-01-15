@@ -2,7 +2,7 @@
 
 # Function to clone and set up a site
 setup_site() {
-    local site_dir=$1
+    site_dir=$1
     echo "Please enter the nodeJS Git repository URL for $site_dir:"
     read repo_url
 
@@ -29,8 +29,8 @@ setup_site() {
 
 # Update process for each user's site
 for user_num in 1 2 3; do
-    local user="user$user_num"
-    local site_dir="/home/$user/site$user_num"
+    user="user$user_num"
+    site_dir="/home/$user/site$user_num"
 
     echo "Do you want to update $site_dir? (yes/no)"
     read update_site
