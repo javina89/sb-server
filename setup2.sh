@@ -49,10 +49,10 @@ sudo mkdir -p /home/${USERNAME}/nginx/frontend/site3
 
 # Move addSite.sh and nodeJS.sh to the home directory assuming this repo was downloaded to the home directory
 sudo chmod +x addSite.sh
-mv addSite.sh ../addSite.sh
+sudo mv addSite.sh /home/${USERNAME}/addSite.sh
 
 sudo chmod +x addNodejs.sh
-mv addSite.sh ../addNodejs.sh
+sudo mv addNodejs.sh /home/${USERNAME}/addNodejs.sh
 
 # Add the frontend script to replace git repos with their files
 sudo mv frontend.sh /home/${USERNAME}/nginx/frontend/
