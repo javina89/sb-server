@@ -23,9 +23,13 @@ setup_site() {
     # Clone the repository into the temp_dir
     git clone "$repo_url" "$temp_dir"
 
-    # Move the cloned content to the site directory
-    # Exclude the special directories '.' and '..'
-    sudo find "$temp_dir" -mindepth 1 -maxdepth 1 -exec mv {} "$site" \;
+    # Check if the 'public' directory exists in the cloned content
+    if [ -d "$temp_dir/public" ]; then
+        # Move the contents of the 'public' directory to the site directory
+        sudo mv "$temp_dir/public"/* "$site"
+    else
+        echo "'public' directory not found in the repository."
+    fi
 
     # Remove the now-empty temp directory
     sudo rm -rf "$temp_dir"
